@@ -1,6 +1,6 @@
-# Project Name
+# BlogDapper
 
-A brief description of your project.
+Implementação de aplicação console utilizando Repository Pattern, Dapper e Banco de Dados MySQL
 
 ## Table of Contents
 
