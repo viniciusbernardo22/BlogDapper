@@ -13,13 +13,13 @@ class Program
         var connection = new SqlConnection(CONNECTION_STRING);
         connection.Open();
 
-        ReadUsers(connection);
+        CreateUser(connection);
         
         connection.Close();
     }
 
     //Users
-    private static void ReadUsers(SqlConnection connection)
+    public static void ReadUsers(SqlConnection connection)
     {
         var repo = new Repository<User>(connection);
         IEnumerable<User> users = repo.Get();
