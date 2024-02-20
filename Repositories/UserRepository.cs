@@ -28,8 +28,7 @@ namespace BlogDapper.Repositories
                 _connection.Update(user);
             
         }
-
-
+        
         public void Delete(User user)
         {
             if(user.Id is not 0)

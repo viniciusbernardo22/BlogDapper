@@ -62,10 +62,10 @@ class Program
     public static void ReadRoles(SqlConnection connection)
     {
         var repo = new RoleRepository(connection);
-        IEnumerable<Role> users = repo.Get();
+        IEnumerable<Role> roles = repo.Get();
 
-        foreach (var user in users)
-            Console.WriteLine(user.Name);
+        foreach (var role in roles)
+            Console.WriteLine(role.Name);
 
     }
 
@@ -88,10 +88,10 @@ class Program
 
     public static void UpdateRole(SqlConnection connection)
     {
-        var user = new User().GenerateRandomUser();
-        user.Id = 2;
-        var repo = new UserRepository(connection);
-        repo.Update(user);
+        var role = new Role().GenerateRandomUser();
+        role.Id = 2;
+        var repo = new RoleRepository(connection);
+        repo.Update(role);
 
     }
 
