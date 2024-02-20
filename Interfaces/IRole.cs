@@ -11,4 +11,8 @@ public interface IRole
     public long Create(Role role);
 
     public void Update(Role role);
+    
+    public void Delete(Role user);
+    
+    public void Delete(int id);
 }

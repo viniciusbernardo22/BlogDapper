@@ -19,5 +19,18 @@ namespace BlogDapper.Repositories
 
         public void Update(Role role) => _connection.Update(role);
         
+        public void Delete(Role role)
+        {
+            if(role.Id is not 0)
+                _connection.Delete(role);
+        }
+             
+        public void Delete(int id)
+        {
+            if (id is not 0) return;
+            
+            Role user = _connection.Get<Role>(id);
+            _connection.Delete(user);
+        }
     }
 }

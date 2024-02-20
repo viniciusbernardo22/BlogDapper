@@ -1,5 +1,3 @@
-using System.Data;
-using System.Data.Common;
 using BlogDapper.Interfaces;
 using BlogDapper.Models;
 using Dapper.Contrib.Extensions;
