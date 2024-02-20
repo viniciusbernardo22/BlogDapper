@@ -12,4 +12,9 @@ public interface IUser
     public long Create(User user);
 
     public void Update(User user);
+
+    public void Delete(User user);
+    
+    public void Delete(int id);
+    
 }
