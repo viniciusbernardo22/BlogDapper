@@ -1,39 +1,30 @@
-
-
+﻿
 using System.Text;
 using Dapper.Contrib.Extensions;
 
 namespace BlogDapper.Models
 {
-    [Table("[User]")]
-    public class User
+    [Table("[Role]")]
+    public class Role
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
-        public string PasswordHash { get; set; }
-        public string Bio { get; set; }
-        public string Image { get; set; }
         public string Slug { get; set; }
 
-        public User GenerateRandomUser()
+        public Role GenerateRandomUser()
         {
             Random r = new Random();
-            string RandomFirstName = GenerateName(r.Next(6, 12));
-            string RandomSurName = GenerateName(r.Next(4, 16));
+            string RandomFirstName = GenerateRole(r.Next(6, 12));
+            string RandomSurName = GenerateRole(r.Next(4, 16));
 
-            var user = new User();
-            user.Name = $"{RandomFirstName} {RandomSurName}";
-            user.Email = $"{RandomFirstName}@gmail.com";
-            user.PasswordHash = Convert.ToBase64String(Encoding.UTF8.GetBytes(RandomFirstName));
-            user.Bio = $"{RandomFirstName.ToUpper()}";
-            user.Image = $"https://plus.unsplash.com/{RandomFirstName}_${RandomSurName}";
-            user.Slug = $"{RandomFirstName}-{RandomSurName}";
-
-            return user;
+            var role = new Role();
+            role.Name = $"{RandomFirstName}@{RandomSurName}";
+            role.Slug = $"{RandomFirstName}!{RandomSurName}";
+            
+            return role;
         }
 
-        private static string GenerateName(int len)
+        private static string GenerateRole(int len)
         {
             Random r = new Random();
             string[] consonants = { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "l", "n", "p", "q", "r", "s", "sh", "zh", "t", "v", "w", "x" };
@@ -53,6 +44,5 @@ namespace BlogDapper.Models
             return Name;
             
         }
-
     }
 }

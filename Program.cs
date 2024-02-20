@@ -1,5 +1,5 @@
-﻿using System.Text;
-using BlogDapper.Models;
+﻿using BlogDapper.Models;
+using BlogDapper.Repositories;
 using Dapper.Contrib.Extensions;
 using Microsoft.Data.SqlClient;
 
@@ -7,80 +7,93 @@ namespace BlogDapper;
 
 class Program
 {
-    private const string CONNECTION_STRING = @"Server=localhost,1433;Database=Blog;User ID=sa;Password=1q2w3e4r@#$;Trusted_Connection=False;TrustServerCertificate=True;";
+    private const string CONNECTION_STRING = "Server=localhost,1433;Database=Blog;User ID=sa;Password=1q2w3e4r@#$;Trusted_Connection=False;TrustServerCertificate=True;";
+
     static void Main(string[] args)
     {
-      
+        var connection = new SqlConnection(CONNECTION_STRING);
+        connection.Open();
+
+        ReadRoles(connection);
+        
+        connection.Close();
     }
 
-    public static void ReadUsers()
+    //Users
+    public static void ReadUsers(SqlConnection connection)
     {
-        using (var connection = new SqlConnection(CONNECTION_STRING))
-        {
-            var users = connection.GetAll<User>();
+        var repo = new UserRepository(connection);
+        IEnumerable<User> users = repo.Get();
 
-            foreach (var user in users)
-            {
-                Console.WriteLine(user.Name);
-            }
-        }
-    }
-
-
-    public static void ReadUser()
-    {
-        using (var connection = new SqlConnection(CONNECTION_STRING))
-        {
-            var user = connection.Get<User>(1);
-
+        foreach (var user in users)
             Console.WriteLine(user.Name);
 
-        }
+    }
+
+    public static void ReadUser(SqlConnection connection)
+    {
+        var repo = new UserRepository(connection);
+        var user = repo.GetOne(1);
+        Console.WriteLine(user.Name);
     }
 
 
-    public static void CreateUser()
+    public static void CreateUser(SqlConnection connection)
     {
         var randomUser = new User().GenerateRandomUser();
-
-        using (var connection = new SqlConnection(CONNECTION_STRING))
-        {
-            var InsertedId = connection.Insert(randomUser);
-
-            Console.WriteLine($"Usuário Id: ${InsertedId} - Email: ${randomUser.Email} Cadastrado com sucesso");
-
-        }
+        var repo = new UserRepository(connection);
+        var id = repo.Create(randomUser);
+        Console.WriteLine($"Usuário Id: ${id} - Email: ${randomUser.Email} Cadastrado com sucesso");
     }
 
 
-    public static void UpdateUser()
+    public static void UpdateUser(SqlConnection connection)
     {
         var user = new User().GenerateRandomUser();
         user.Id = 2;
+        var repo = new UserRepository(connection);
+        repo.Update(user);
 
-
-        using (var connection = new SqlConnection(CONNECTION_STRING))
-        {
-
-            var Modified = connection.Update(user);
-
-            Console.WriteLine($"Usuário {user.Email} modificado com sucesso");
-        }
     }
 
-    public static void DeleteUser()
+    
+    
+    //Roles
+    public static void ReadRoles(SqlConnection connection)
+    {
+        var repo = new RoleRepository(connection);
+        IEnumerable<Role> users = repo.Get();
+
+        foreach (var user in users)
+            Console.WriteLine(user.Name);
+
+    }
+
+    public static void ReadRole(SqlConnection connection)
+    {
+        var repo = new RoleRepository(connection);
+        var user = repo.GetOne(1);
+        Console.WriteLine(user.Name);
+    }
+
+
+    public static void CreateRole(SqlConnection connection)
+    {
+        var randomRole = new Role().GenerateRandomUser();
+        var repo = new RoleRepository(connection);
+        var id = repo.Create(randomRole);
+        Console.WriteLine($"Role Id: ${id} - Nome: ${randomRole.Name} Cadastrada com sucesso");
+    }
+
+
+    public static void UpdateRole(SqlConnection connection)
     {
         var user = new User().GenerateRandomUser();
         user.Id = 2;
+        var repo = new UserRepository(connection);
+        repo.Update(user);
 
-
-        using (var connection = new SqlConnection(CONNECTION_STRING))
-        {
-
-            var Modified = connection.Delete(user);
-
-            Console.WriteLine($"Usuário {user.Email} excluido com sucesso");
-        }
     }
+
 
 }
