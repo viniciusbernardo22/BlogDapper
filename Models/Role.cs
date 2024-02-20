@@ -1,6 +1,4 @@
-﻿
-using System.Text;
-using Dapper.Contrib.Extensions;
+﻿using Dapper.Contrib.Extensions;
 
 namespace BlogDapper.Models
 {

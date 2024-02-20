@@ -1,6 +1,5 @@
 ﻿using BlogDapper.Models;
 using BlogDapper.Repositories;
-using Dapper.Contrib.Extensions;
 using Microsoft.Data.SqlClient;
 
 namespace BlogDapper;
@@ -14,25 +13,25 @@ class Program
         var connection = new SqlConnection(CONNECTION_STRING);
         connection.Open();
 
-        ReadRoles(connection);
+        ReadUsers(connection);
         
         connection.Close();
     }
 
     //Users
-    public static void ReadUsers(SqlConnection connection)
+    private static void ReadUsers(SqlConnection connection)
     {
-        var repo = new UserRepository(connection);
+        var repo = new Repository<User>(connection);
         IEnumerable<User> users = repo.Get();
 
-        foreach (var user in users)
+        foreach (User user in users)
             Console.WriteLine(user.Name);
 
     }
 
     public static void ReadUser(SqlConnection connection)
     {
-        var repo = new UserRepository(connection);
+        var repo = new Repository<User>(connection);
         var user = repo.GetOne(1);
         Console.WriteLine(user.Name);
     }
@@ -41,7 +40,7 @@ class Program
     public static void CreateUser(SqlConnection connection)
     {
         var randomUser = new User().GenerateRandomUser();
-        var repo = new UserRepository(connection);
+        var repo = new Repository<User>(connection);
         var id = repo.Create(randomUser);
         Console.WriteLine($"Usuário Id: ${id} - Email: ${randomUser.Email} Cadastrado com sucesso");
     }
@@ -51,27 +50,24 @@ class Program
     {
         var user = new User().GenerateRandomUser();
         user.Id = 2;
-        var repo = new UserRepository(connection);
+        var repo = new Repository<User>(connection);
         repo.Update(user);
 
     }
-
-    
     
     //Roles
     public static void ReadRoles(SqlConnection connection)
     {
-        var repo = new RoleRepository(connection);
+        var repo = new Repository<Role>(connection);
         IEnumerable<Role> roles = repo.Get();
 
         foreach (var role in roles)
             Console.WriteLine(role.Name);
-
     }
 
     public static void ReadRole(SqlConnection connection)
     {
-        var repo = new RoleRepository(connection);
+        var repo = new Repository<Role>(connection);
         var user = repo.GetOne(1);
         Console.WriteLine(user.Name);
     }
@@ -80,7 +76,7 @@ class Program
     public static void CreateRole(SqlConnection connection)
     {
         var randomRole = new Role().GenerateRandomUser();
-        var repo = new RoleRepository(connection);
+        var repo = new Repository<Role>(connection);
         var id = repo.Create(randomRole);
         Console.WriteLine($"Role Id: ${id} - Nome: ${randomRole.Name} Cadastrada com sucesso");
     }
@@ -90,9 +86,8 @@ class Program
     {
         var role = new Role().GenerateRandomUser();
         role.Id = 2;
-        var repo = new RoleRepository(connection);
+        var repo = new Repository<Role>(connection);
         repo.Update(role);
-
     }
 
 
