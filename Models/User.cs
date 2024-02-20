@@ -17,7 +17,8 @@ namespace BlogDapper.Models
         public string Image { get; set; }
         public string Slug { get; set; }
 
-        public List<Role> Roles { get; set; }
+        [Write(false)] 
+        public List<Role> Roles { get; set; } 
         public User GenerateRandomUser()
         {
             Random r = new Random();

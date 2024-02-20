@@ -9,7 +9,7 @@ namespace BlogDapper.Models
         public string Name { get; set; }
         public string Slug { get; set; }
 
-        public Role GenerateRandomUser()
+        public Role GenerateRandomRole()
         {
             Random r = new Random();
             string RandomFirstName = GenerateRole(r.Next(6, 12));

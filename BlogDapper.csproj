@@ -13,8 +13,4 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="Interfaces\IUser.cs" />
-  </ItemGroup>
-
 </Project>
